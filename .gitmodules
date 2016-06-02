@@ -1,0 +1,3 @@
+[submodule "src/lsd_slam"]
+	path = src/lsd_slam
+	url = https://github.com/tum-vision/lsd_slam.git
