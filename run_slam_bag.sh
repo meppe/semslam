@@ -47,7 +47,7 @@ gnome-terminal --geometry=40x10 --tab -e "bash -c 'rosrun lsd_slam_core live_sla
 
 # play bagfile
 #rosbag play src/lsd_slam/LSD_foodcourt.bag
-gnome-terminal --geometry=40x10 --tab -e "bash -c 'rosbag play src/lsd_slam/LSD_foodcourt.bag'" 
+gnome-terminal --geometry=40x10 --tab -e "bash -c 'rosbag play video_bags/LSD_foodcourt.bag'" 
 
 # start slam viewer
 # rosrun lsd_slam_viewer viewer

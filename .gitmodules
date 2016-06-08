@@ -1,6 +1,3 @@
-[submodule "src/lsd_slam"]
-	path = src/lsd_slam
-	url = https://github.com/tum-vision/lsd_slam.git
 [submodule "src/frcnn/src/py-faster-rcnn"]
 	path = src/frcnn/src/py-faster-rcnn
 	url = https://github.com/rbgirshick/py-faster-rcnn.git
