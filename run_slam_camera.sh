@@ -23,26 +23,27 @@
 # Run live SLAM
 
 # Start droidcam client
-droidcam
+# droidcam
 
 # start roscore
-roscore &
+# roscore &
 
 # start gscam
-cd ~/ros_slam/src/gscam
-export GSCAM_CONFIG="v4l2src device=/dev/video0 ! video/x-raw-rgb,framerate=50/1 ! ffmpegcolorspace"
-rosrun gscam gscam &
+# cd src/gscam
+# export GSCAM_CONFIG="v4l2src device=/dev/video0 ! video/x-raw-rgb,framerate=50/1 ! ffmpegcolorspace"
+# rosrun gscam gscam &
+
 
 
 # (Optional: calibrate camera)
-rosrun camera_calibration cameracalibrator.py --size 7x7 --square 0.41 image:=/camera/image_raw camera:=/
+# rosrun camera_calibration cameracalibrator.py --size 7x7 --square 0.41 image:=/camera/image_raw camera:=/
 
 # start lsd_slam with camera
 rosrun lsd_slam_core live_slam /image:=/camera/image_raw _calib:=lsd_slam_core/calib/lenovo_phone.cfg
 
 #alternatively from bag video file
-rosrun lsd_slam_core live_slam image:=/image_raw camera_info:=/camera_info
-rosbag play src/lsd_slam/LSD_foodcourt.bag
+# rosrun lsd_slam_core live_slam image:=/image_raw camera_info:=/camera_info
+# rosbag play src/lsd_slam/LSD_foodcourt.bag
 
 
 # start slam viewer
