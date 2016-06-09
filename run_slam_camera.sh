@@ -28,6 +28,7 @@
 # start roscore
 # roscore &
 
+ roslaunch gscam v4l_asus_zenbook.launch
 # start gscam
 # cd src/gscam
 # export GSCAM_CONFIG="v4l2src device=/dev/video0 ! video/x-raw-rgb,framerate=50/1 ! ffmpegcolorspace"
@@ -39,7 +40,7 @@
 # rosrun camera_calibration cameracalibrator.py --size 7x7 --square 0.41 image:=/camera/image_raw camera:=/
 
 # start lsd_slam with camera
-rosrun lsd_slam_core live_slam /image:=/camera/image_raw _calib:=lsd_slam_core/calib/lenovo_phone.cfg
+rosrun lsd_slam_core live_slam /image:=/v4l/camera/image_raw _calib:=lsd_slam_core/calib/asus_zenbook_camera.cfg
 
 #alternatively from bag video file
 # rosrun lsd_slam_core live_slam image:=/image_raw camera_info:=/camera_info
