@@ -20,6 +20,9 @@
 # http://stackoverflow.com/questions/28010399/build-opencv-with-cuda-support
 # 
 
+# source setup.bash
+source devel/setup.bash
+
 # Run live SLAM
 
 # Start droidcam client
@@ -57,3 +60,4 @@ gnome-terminal --geometry=40x10 --tab -e "bash -c 'rosrun lsd_slam_viewer viewer
 # rosrun image_view image_view image:=/image_raw
 gnome-terminal --geometry=40x10 --tab -e "bash -c 'rosrun image_view image_view image:=/image_raw'" 
 
+# Start object recognition

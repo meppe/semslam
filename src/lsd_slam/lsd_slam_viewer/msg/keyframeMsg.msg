@@ -20,3 +20,6 @@ uint32 width
 # data as InputPointDense (float idepth, float idepth_var, uchar color[4]), width x height
 # may be empty, in that case no associated pointcloud is ever shown.
 uint8[] pointcloud
+
+# InputPointDense size is
+# 4 + 4 + (4*1) 

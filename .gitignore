@@ -63,3 +63,5 @@ target/
 video_bags
 devel
 .idea
+*.png
+*~
