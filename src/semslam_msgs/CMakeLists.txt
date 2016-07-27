@@ -1,14 +1,13 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(frcnn)
+project(semslam_msgs)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-    roscpp
-    rospy
-    std_msgs
-    message_generation)
+  std_msgs
+  message_generation
+)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -43,11 +42,14 @@ find_package(catkin REQUIRED COMPONENTS
 ##   * uncomment the generate_messages entry below
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
-
-## add_message_files(FILES
-##    keyframeGraphMsg.msg
-##    keyframeMsg.msg
-##)
+add_message_files(
+    DIRECTORY msg
+    FILES objectBBMsg.msg
+)
+generate_messages(
+    DEPENDENCIES
+    std_msgs
+)
 
 ## Generate messages in the 'msg' folder
 # add_message_files(
@@ -73,7 +75,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate added messages and services with any dependencies listed here
 # generate_messages(
 #   DEPENDENCIES
-#   std_msgs  # Or other packages containing msgs
+#   std_msgs
 # )
 
 ################################################
@@ -105,11 +107,10 @@ find_package(catkin REQUIRED COMPONENTS
 ## LIBRARIES: libraries you create in this project that dependent projects also need
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
-
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES frcnn
-   CATKIN_DEPENDS message_runtime lsd_slam_viewer lsd_slam_core
+#  LIBRARIES semslam_msgs
+#  CATKIN_DEPENDS std_msgs
 #  DEPENDS system_lib
 )
 
@@ -120,26 +121,29 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 # include_directories(include)
+include_directories(
+  ${catkin_INCLUDE_DIRS}
+)
 
 ## Declare a C++ library
-# add_library(frcnn
-#   src/${PROJECT_NAME}/frcnn.cpp
+# add_library(semslam_msgs
+#   src/${PROJECT_NAME}/semslam_msgs.cpp
 # )
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
-# add_dependencies(frcnn ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+# add_dependencies(semslam_msgs ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
-# add_executable(frcnn_node src/frcnn_node.cpp)
+# add_executable(semslam_msgs_node src/semslam_msgs_node.cpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
-# add_dependencies(frcnn_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+# add_dependencies(semslam_msgs_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(frcnn_node
+# target_link_libraries(semslam_msgs_node
 #   ${catkin_LIBRARIES}
 # )
 
@@ -158,7 +162,7 @@ catkin_package(
 # )
 
 ## Mark executables and/or libraries for installation
-# install(TARGETS frcnn frcnn_node
+# install(TARGETS semslam_msgs semslam_msgs_node
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -183,7 +187,7 @@ catkin_package(
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_frcnn.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_semslam_msgs.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()

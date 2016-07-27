@@ -29,6 +29,7 @@
 #include "qevent.h"
 #include "lsd_slam_viewer/keyframeMsg.h"
 #include "lsd_slam_viewer/keyframeGraphMsg.h"
+#include "semslam_msgs/objectBBMsg.h"
 
 #include "QGLViewer/keyFrameInterpolator.h"
 

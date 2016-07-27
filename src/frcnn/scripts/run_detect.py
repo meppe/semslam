@@ -19,11 +19,14 @@ from rospkg import rospack
 import struct
 import pickle
 import time
+import errno
+import sys
 
 import rospy
 from std_msgs.msg import String
 from lsd_slam_viewer.msg import keyframeMsg
 from lsd_slam_viewer.msg import keyframeGraphMsg
+from semslam_msgs.msg import objectBBMsg
 from PIL import Image
 
 import os,sys
@@ -70,6 +73,33 @@ min_c = 255
 max_c = 0
 CONF_THRESH = 0.2
 NMS_THRESH = 0.1
+
+def pub_detections(pub, class_name, dets, thresh=0.5):
+    global current_kf_id
+
+    inds = np.where(dets[:, -1] >= thresh)[0]
+    if len(inds) == 0:
+        return
+
+    print("Publishing detection of class " + str(class_name))
+
+    frameId = 0
+    isKeyFrame = True
+
+    class_name = str(class_name)
+
+    highscorebb = None
+    highscore = 0
+    for i in inds:
+        bbox = dets[i, :4]
+        score = dets[i, -1]
+        if score > highscore:
+            highscorebb = bbox
+            highscore = score
+
+    bbMsg = objectBBMsg(frameId, isKeyFrame, highscorebb, class_name, highscore)
+    print("publishing bb" + str(bbMsg))
+    pub.publish(bbMsg)
 
 def vis_detections(im, class_name, dets, thresh=0.5):
     """Draw detected bounding boxes."""
@@ -201,10 +231,19 @@ def cb_keyframe_received(msg, net=None):
 
     print("Waiting for next KF.")
 
-def fake_detect(fname="kf_20542.png",net=None):
+def fake_detect(fname="pics/kf_20542.png",net=None):
     global NEW_DETECTION, current_kf, current_kf_id
     NEW_DETECTION = True
+    try:
+        open(fname)
+    except OSError as e:
+        if e.errno == errno.ENOENT:
+            print("File not found")
+            exit(1)
+        else:
+            raise
     current_kf = cv2.imread(fname)
+    #
     current_kf_id = "fake_detect_frame"
     if net is not None:
         frame_detect(net)
@@ -242,19 +281,21 @@ if __name__ == '__main__':
 
     # Not sure if this is necesary. Leaving it for now, bu should test later what the effect of this warmup is...
     # Warmup on a dummy image
-    # im = 128 * np.ones((300, 500, 3), dtype=np.uint8)
-    # for i in xrange(2):
-    #     _, _= im_detect(net, im)
+    im = 128 * np.ones((300, 500, 3), dtype=np.uint8)
+    for i in xrange(2):
+        _, _= im_detect(net, im)
 
 
     sub_keyframes = rospy.Subscriber("/lsd_slam/keyframes", keyframeMsg , cb_keyframe_received,
                                      queue_size=1,callback_args=net)
 
-    fake_detect(net=net)
+    bb_pub = rospy.Publisher('frcnn/bb', objectBBMsg, queue_size=1)
+
+    # fake_detect(net=net)
 
     ctr = 0
-    if True:
-    # while True:
+    # if True:
+    while True:
         # Visualize detections for each class
         time.sleep(0.5)
         if NEW_DETECTION:
@@ -267,6 +308,7 @@ if __name__ == '__main__':
                                   cls_scores[:, np.newaxis])).astype(np.float32)
                 keep = nms(dets, NMS_THRESH)
                 dets = dets[keep, :]
+                pub_detections(bb_pub, cls, dets, thresh=CONF_THRESH)
                 vis_detections(current_kf, cls, dets, thresh=CONF_THRESH)
                 # break
             ctr += 1
