@@ -1,9 +1,1 @@
-[submodule "src/frcnn/src/py-faster-rcnn"]
-	path = src/frcnn/src/py-faster-rcnn
-	url = https://github.com/rbgirshick/py-faster-rcnn.git
-[submodule "src/gscam"]
-	path = src/gscam
-	url = https://github.com/ros-drivers/gscam.git
-[submodule "src/image_pipeline"]
-	path = src/image_pipeline
-	url = https://github.com/ros-perception/image_pipeline.git
+
