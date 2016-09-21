@@ -285,7 +285,6 @@ if __name__ == '__main__':
     for i in xrange(2):
         _, _= im_detect(net, im)
 
-
     sub_keyframes = rospy.Subscriber("/lsd_slam/keyframes", keyframeMsg , cb_keyframe_received,
                                      queue_size=1,callback_args=net)
 
